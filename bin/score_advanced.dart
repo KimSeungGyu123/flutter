@@ -1,9 +1,5 @@
 import 'dart:io';
-
-// ------------------------------------------
 // 1. Score 클래스 + StudentScore 클래스(상속)
-// ------------------------------------------
-
 class Score {
   int score;
 
@@ -16,21 +12,18 @@ class Score {
 
 class StudentScore extends Score {
   String name;
-  String subject;
+  
 
-  StudentScore(this.name, this.subject, int score) : super(score);
+  StudentScore(this.name, int score) : super(score);
 
   @override
   void show() {
-    print('이름: $name, 과목: $subject, 점수: $score');
+    print('이름: $name, 점수: $score');
   }
 }
 
-// ------------------------------------------
 // 2. 파일에서 학생 데이터 읽어오기
-// ------------------------------------------
-
-List<StudentScore> loadStudentData(String filePath, String subject) {
+List<StudentScore> loadStudentData(String filePath) {
   List<StudentScore> students = [];
 
   try {
@@ -44,7 +37,7 @@ List<StudentScore> loadStudentData(String filePath, String subject) {
       String name = parts[0];
       int score = int.parse(parts[1]);
 
-      students.add(StudentScore(name, subject, score));
+      students.add(StudentScore(name, score));
     }
   } catch (e) {
     print("학생 데이터를 불러오는 데 실패했습니다: $e");
@@ -54,10 +47,7 @@ List<StudentScore> loadStudentData(String filePath, String subject) {
   return students;
 }
 
-// ------------------------------------------
 // 3. 사용자 입력 받아 학생 점수 확인
-// ------------------------------------------
-
 StudentScore? selectStudent(List<StudentScore> students) {
   while (true) {
     stdout.write("어떤 학생의 통계를 확인하시겠습니까? ");
@@ -76,10 +66,7 @@ StudentScore? selectStudent(List<StudentScore> students) {
   }
 }
 
-// ------------------------------------------
 // 4. 결과를 파일로 저장
-// ------------------------------------------
-
 void saveResults(String filePath, String content) {
   try {
     final file = File(filePath);
@@ -90,17 +77,14 @@ void saveResults(String filePath, String content) {
   }
 }
 
-// ------------------------------------------
-// main 함수
-// ------------------------------------------
 
 void main() {
-  const subject = "프로그래밍"; // 예시 과목
+ 
   const inputFile = "students.txt";
   const outputFile = "result.txt";
 
   // 1) 파일로부터 학생 데이터 가져오기
-  List<StudentScore> students = loadStudentData(inputFile, subject);
+  List<StudentScore> students = loadStudentData(inputFile);
 
   // 2) 사용자 입력으로 학생 선택
   StudentScore selected = selectStudent(students)!;
